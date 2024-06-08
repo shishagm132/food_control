@@ -22,7 +22,8 @@ const changeToCurrentColor: PluginConfigLike = {
   fn: () => ({
     element: {
       enter: (node) => {
-        if (node.name === "svg") node.attributes["fill"] = "currentColor";
+        if (node.name === "svg" || node.attributes["fill"])
+          node.attributes["fill"] = "currentColor";
       },
     },
   }),

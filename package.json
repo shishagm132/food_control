@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
@@ -29,8 +29,6 @@
     "clsx": "^2.1.1",
     "cmdk-sv": "^0.0.17",
     "dexie": "^4.0.7",
-    "flowbite": "^2.3.0",
-    "flowbite-svelte": "^0.46.1",
     "svelte-radix": "^1.1.0",
     "tailwind-merge": "^2.3.0",
     "tailwind-variants": "^0.2.1"

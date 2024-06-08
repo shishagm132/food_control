@@ -4,6 +4,7 @@ import History from "./History.svelte";
 import FoodsList from "./FoodsList.svelte";
 import MainView from "./MainView.svelte";
 import SelectFoods from "./SelectFoods.svelte";
+import Settings from "./Settings.svelte";
 
 export {
   AddFood,
@@ -12,4 +13,5 @@ export {
   FoodsList,
   MainView,
   SelectFoods,
+  Settings,
 };
