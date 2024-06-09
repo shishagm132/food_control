@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { VitePWA } from "vite-plugin-pwa";
 import tsconfigPaths from "vite-tsconfig-paths";
 import svg from "@poppanator/sveltekit-svg";
 
@@ -51,5 +52,8 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
+    VitePWA({
+      registerType: "autoUpdate",
+    }),
   ],
 });

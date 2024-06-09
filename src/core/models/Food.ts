@@ -7,13 +7,13 @@ export default class Food extends AbstractEntity {
 
   constructor(
     public id: number,
+    public name: string,
     public fat: number,
     public protein: number,
     public carbohydrates: number,
-    public sucrose: number,
-    public kilocalories: number,
     public kilojoules: number,
-    public image: Blob
+    public image: Blob,
+    public weightGram?: number
   ) {
     super(id);
 
