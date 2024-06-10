@@ -1,9 +1,11 @@
 <script lang="ts">
   import Badge from "$components/ui/badge/badge.svelte";
+  import Button from "$components/ui/button/button.svelte";
   import * as Collapsible from "$components/ui/collapsible/";
+  import * as Dialog from "$components/ui/dialog";
   import FoodsIcon from "../../assets/FoodsIcon.svg?url";
   import Convert from "../../core/Convert";
-  import getImageBlob from "../../core/getImageBlob";
+  import db from "../../core/context/Context";
   import { Food } from "../../core/models";
 
   export let FoodItem: Food;
@@ -81,6 +83,31 @@
               <span class="pl-2 font-bold">{FoodItem.weightGram}г</span>
             </Badge>
           {/if}
+        </div>
+        <div class="space-x-2 pt-2">
+          <Button variant="outline">Редактировать</Button>
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <Button variant="destructive">Удалить</Button>
+            </Dialog.Trigger>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>Вы уверены?</Dialog.Title>
+                <Dialog.Description>
+                  Это действие невозможно будет отменить.
+                  <Dialog.Footer class="flex pt-4 gap-4 w-full">
+                    <Dialog.Close>Отмена</Dialog.Close>
+                    <Button
+                      variant="destructive"
+                      on:click={() =>
+                        db.foods.where("id").equals(FoodItem.id).delete()}
+                      >ОК</Button
+                    >
+                  </Dialog.Footer>
+                </Dialog.Description>
+              </Dialog.Header>
+            </Dialog.Content>
+          </Dialog.Root>
         </div>
       </div>
     </div>
