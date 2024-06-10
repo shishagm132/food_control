@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   export type ComboboxBindAble = {
-    value: string;
+    value?: string;
     label: string;
   };
 </script>
@@ -10,7 +10,6 @@
   import * as Popover from "$components/ui/popover";
   import { Button } from "$components/ui/button";
   import ArrowsUpDown from "../../../assets/ArrowsUpDownIcon.svg?component";
-  import { cn } from "$lib/utils.js";
   import { tick } from "svelte";
 
   export let comboboxValues: ComboboxBindAble[];
@@ -46,7 +45,7 @@
       <ArrowsUpDown class="mr-2 h-4 w-4" />
     </Button>
   </Popover.Trigger>
-  <Popover.Content class="w-10/12 p-0">
+  <Popover.Content class="p-0">
     <Command.Root>
       <Command.Input placeholder={name} />
       <Command.Empty>{notFoundMessage}</Command.Empty>

@@ -1,10 +1,16 @@
 <script lang="ts">
   import Badge from "$components/ui/badge/badge.svelte";
   import * as Collapsible from "$components/ui/collapsible/";
+  import FoodsIcon from "../../assets/FoodsIcon.svg?url";
   import Convert from "../../core/Convert";
+  import getImageBlob from "../../core/getImageBlob";
   import { Food } from "../../core/models";
 
   export let FoodItem: Food;
+
+  const imageURL = FoodItem.image
+    ? URL.createObjectURL(FoodItem.image)
+    : FoodsIcon;
 </script>
 
 <Collapsible.Root>
@@ -12,7 +18,7 @@
     <div class="flex items-center w-full justify-between">
       <img
         aria-hidden="true"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/CarrotRoots.jpg/275px-CarrotRoots.jpg"
+        src={imageURL}
         alt={FoodItem.name}
         class="relative inline-block h-9 w-9 rounded-md object-cover object-center"
       />
@@ -39,7 +45,7 @@
     <div class="max-w-sm rounded-lg overflow-hidden border bg-white">
       <img
         class="w-full h-28 object-cover"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/CarrotRoots.jpg/275px-CarrotRoots.jpg"
+        src={imageURL}
         alt={FoodItem.name}
       />
       <div class="px-4 pt-4">
@@ -69,10 +75,12 @@
             </span>
             Ккал
           </Badge>
-          <Badge variant="outline">
-            Размер одной порции
-            <span class="pl-2 font-bold">{FoodItem.weightGram}г</span>
-          </Badge>
+          {#if FoodItem.isEnumerable}
+            <Badge variant="outline">
+              Размер одной порции
+              <span class="pl-2 font-bold">{FoodItem.weightGram}г</span>
+            </Badge>
+          {/if}
         </div>
       </div>
     </div>

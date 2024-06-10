@@ -3,6 +3,7 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { VitePWA } from "vite-plugin-pwa";
 import tsconfigPaths from "vite-tsconfig-paths";
 import svg from "@poppanator/sveltekit-svg";
+import webManifest from "./web_manifest.json";
 
 type PluginConfigLike = {
   name: string;
@@ -23,7 +24,15 @@ const changeToCurrentColor: PluginConfigLike = {
   fn: () => ({
     element: {
       enter: (node) => {
-        if (node.name === "svg" || node.attributes["fill"])
+        if (node.attributes["stroke"]) {
+          node.attributes["stroke"] = "currentColor";
+        }
+
+        if (node.attributes["fill"] === "none") {
+          return;
+        }
+
+        if (node.attributes["fill"] || node.name === "svg")
           node.attributes["fill"] = "currentColor";
       },
     },
@@ -45,7 +54,7 @@ export default defineConfig({
           },
           {
             name: "removeAttrs",
-            params: { attrs: "(fill|stroke|width|height)" },
+            params: { attrs: "(width|height)" },
           },
           changeToCurrentColor,
         ],
@@ -54,6 +63,7 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
+      ...webManifest,
     }),
   ],
 });
