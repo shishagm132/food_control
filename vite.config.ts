@@ -41,6 +41,7 @@ const changeToCurrentColor: PluginConfigLike = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/food_control/",
   plugins: [
     svelte(),
     svg({
