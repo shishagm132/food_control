@@ -17,6 +17,6 @@
 <main class="flex flex-col space-y-2 p-5 pt-3 pb-40">
   <SearchBar {onSearch} />
   {#each $foodsObservable || [] as food}
-    <FoodItem FoodItem={food} />
+    <FoodItem {food} />
   {/each}
 </main>

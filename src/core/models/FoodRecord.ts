@@ -1,7 +1,7 @@
 export default class FoodRecord {
   constructor(
     public date: string,
-    public foodId: number,
+    public foodId: number[],
     public mealScheduleId: number
   ) {}
 

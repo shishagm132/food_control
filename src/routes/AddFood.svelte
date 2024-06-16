@@ -1,11 +1,6 @@
 <script lang="ts">
-  import Combobox, {
-    type ComboboxBindAble,
-  } from "$components/ui/combobox/Combobox.svelte";
   import Input from "$components/ui/input/input.svelte";
-  import { Label } from "$components/ui/label";
-  import { onMount } from "svelte";
-
+  import InputNumbers from "$components/ui/input-numbers/input-numbers.svelte";
   import db from "../core/context/Context";
   import getImageBlob from "../core/getImageBlob";
   import { Food } from "../core/models";
@@ -20,16 +15,14 @@
   let name = "";
 
   type InputEventNumbers = InputEvent & { target: { value: number } };
-  const toFixedNumber = (num: number, fixValue: number) =>
-    Number(num.toFixed(fixValue));
 
   function handleKilojouleChange(event: InputEvent) {
-    kilojoules = (event as InputEventNumbers).target.value;
+    kilojoules = Number((event as InputEventNumbers).target.value);
     kilocalories = Convert.fromKjToKCalories(kilojoules);
   }
 
   function handleKilocalorieChange(event: InputEvent) {
-    kilocalories = (event as InputEventNumbers).target.value;
+    kilocalories = Number((event as InputEventNumbers).target.value);
     kilojoules = Convert.fromKCaloriesToKj(kilocalories);
   }
 
@@ -44,8 +37,6 @@
     const image = await getImageBlob().catch(alert);
     imageSelected = image instanceof Blob;
 
-    console.log(imageSelected);
-
     if (imageSelected) {
       imageBlob = image!;
       imageBox.src = URL.createObjectURL(imageBlob!);
@@ -56,20 +47,35 @@
   let imageBox: HTMLImageElement;
   let imageBlob: Blob | undefined;
 
-  function onSaveProduct() {
-    db.transaction("rw", db.foods, () => {
-      db.foods.add(
-        new Food(
-          name,
-          fat,
-          protein,
-          carbohydrates,
-          kilojoules,
-          averageWeight,
-          imageBlob
-        )
-      );
-    });
+  async function onSaveProduct() {
+    try {
+      await db.transaction("rw", db.foods, async () => {
+        await db.foods.add(
+          new Food(
+            name,
+            +fat,
+            +protein,
+            +carbohydrates,
+            +kilojoules,
+            +averageWeight,
+            imageBlob
+          )
+        );
+      });
+      alert("Пища добавлена!");
+    } catch (err) {
+      alert(`Ошибка! Имя данное имя "${name}" уже занято!\n\n`);
+      return;
+    }
+    averageWeight = 0;
+    kilojoules = 0;
+    kilocalories = 0;
+    protein = 0;
+    carbohydrates = 0;
+    fat = 0;
+    name = "";
+    imageSelected = false;
+    imageBlob = undefined;
   }
 </script>
 
@@ -80,7 +86,7 @@
     aria-hidden="true"
     bind:this={imageBox}
     alt="image preview"
-    class="object-cover max-h-64"
+    class="object-cover max-h-64 rounded"
   />
   <span
     style={imageSelected ? "display: none" : ""}
@@ -92,35 +98,43 @@
     <Button on:click={addImage}>Добавить картинку (опционально)</Button>
   </div>
   <label for="name">Название продукта</label>
+
   <Input id="name" bind:value={name} />
-  <p>Введите кДж или ккал продукта</p>
+  <p>Введите кДж или ккал (на 100 грамм продукта)</p>
   <div class="flex justify-between gap-x-6">
     <div class="flex-1">
       кДж:
-      <Input bind:value={kilojoules} on:input={handleKilojouleChange} />
+      <InputNumbers
+        bind:value={kilojoules}
+        on:input={handleKilojouleChange}
+        onlyPositive={true}
+      />
     </div>
     <div class="flex-1">
       ккал:
-      <Input bind:value={kilocalories} on:input={handleKilocalorieChange} />
+      <InputNumbers
+        bind:value={kilocalories}
+        on:input={handleKilocalorieChange}
+        onlyPositive={true}
+      />
     </div>
   </div>
   <label for="protein">Белки на 100 грамм</label>
-  <Input type="number" id="protein" bind:value={protein} />
+  <InputNumbers id="protein" bind:value={protein} onlyPositive={true} />
   <label for="fat">Жиры на 100 грамм</label>
-  <Input type="number" id="fat" bind:value={fat} />
+  <InputNumbers id="fat" bind:value={fat} onlyPositive={false} />
   <label for="carbohydrates">Углеводы на 100 грамм</label>
-  <Input type="number" id="carbohydrates" bind:value={carbohydrates} />
-  <Alert.Root class="space-x-2">
-    <AlertIcon width="26px" height="26px" />
-    <Alert.Title>Ваш продукт перечисляемый?</Alert.Title>
-    <Alert.Description>
-      Оставьте поле ниже отрицательным, если продукт не перечисляемый.
-      <b>Например: манная каша.</b>
-      <br />Если ваш продукт перечисляемый то вы можете указать средний вес
-      продукта. <b>Например: яблоко.</b>
-    </Alert.Description>
-  </Alert.Root>
+  <InputNumbers
+    id="carbohydrates"
+    bind:value={carbohydrates}
+    onlyPositive={true}
+  />
   <label for="avg_weight">Вес продукта</label>
-  <Input type="number" id="avg_weight" bind:value={averageWeight} />
+  <InputNumbers
+    onlyPositive={true}
+    type="number"
+    id="avg_weight"
+    bind:value={averageWeight}
+  />
   <Button on:click={onSaveProduct}>Добавить продукт</Button>
 </main>

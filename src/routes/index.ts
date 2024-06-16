@@ -3,15 +3,6 @@ import AddNewFoodRecording from "./AddNewFoodRecording.svelte";
 import History from "./History.svelte";
 import FoodsList from "./FoodsList.svelte";
 import MainView from "./MainView.svelte";
-import SelectFoods from "./SelectFoods.svelte";
 import Settings from "./Settings.svelte";
 
-export {
-  AddFood,
-  AddNewFoodRecording,
-  History,
-  FoodsList,
-  MainView,
-  SelectFoods,
-  Settings,
-};
+export { AddFood, AddNewFoodRecording, History, FoodsList, MainView, Settings };

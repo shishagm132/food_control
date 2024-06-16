@@ -1,20 +1,20 @@
 <script context="module" lang="ts">
-  export type ComboboxBindAble = {
-    value?: string;
+  export type ComboboxBindAble<T> = {
+    value: T;
     label: string;
   };
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="T">
   import * as Command from "$components/ui/command";
   import * as Popover from "$components/ui/popover";
   import { Button } from "$components/ui/button";
   import ArrowsUpDown from "../../../assets/ArrowsUpDownIcon.svg?component";
   import { tick } from "svelte";
 
-  export let comboboxValues: ComboboxBindAble[];
+  export let comboboxValues: ComboboxBindAble<T>[];
   export let open = false;
-  export let value: string;
+  export let value: T;
   export let name: string;
   export let notFoundMessage: string;
 
@@ -52,9 +52,13 @@
       <Command.Group>
         {#each comboboxValues as framework}
           <Command.Item
-            value={framework.value}
+            value={framework.label}
             onSelect={(currentValue) => {
-              value = currentValue;
+              //@ts-expect-error object cannot be undefined because we get onSelect event
+              value = comboboxValues.find(
+                (it) => it.label === currentValue
+              ).value;
+
               closeAndFocusTrigger(ids.trigger);
             }}
           >

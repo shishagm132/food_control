@@ -10,8 +10,8 @@ export default class Food {
     public fat: number,
     public protein: number,
     public carbohydrates: number,
-    public kilojoules: number,
-    public weightGram: number,
+    public kj: number,
+    public weight: number = -1,
     public image?: Blob
   ) {
     Object.defineProperties(this, {
@@ -20,7 +20,7 @@ export default class Food {
   }
 
   get isEnumerable() {
-    return this.weightGram >= 1;
+    return this.weight >= 1;
   }
 
   public equals(id: number) {

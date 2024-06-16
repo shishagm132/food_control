@@ -7,88 +7,58 @@
   import Convert from "../../core/Convert";
   import db from "../../core/context/Context";
   import { Food } from "../../core/models";
+  import FoodSmallItem from "./FoodSmallItem.svelte";
 
-  export let FoodItem: Food;
+  export let food: Food;
 
-  const imageURL = FoodItem.image
-    ? URL.createObjectURL(FoodItem.image)
-    : FoodsIcon;
+  const imageURL = food.image ? URL.createObjectURL(food.image) : FoodsIcon;
 </script>
 
 <Collapsible.Root>
   <Collapsible.Trigger class="flex w-full justify-between pb-3 pt-3 last:pb-0">
-    <div class="flex items-center w-full justify-between">
-      <img
-        aria-hidden="true"
-        src={imageURL}
-        alt={FoodItem.name}
-        class="relative inline-block h-9 w-9 rounded-md object-cover object-center"
-      />
-      <div class="flex flex-col items-center">
-        <p
-          class="block font-sans overflow-ellipsis w-48 sm:w-80 line-clamp-1 text-nowrap text-sm font-semibold text-blue-gray-900"
-        >
-          {FoodItem.name}
-        </p>
-        <p
-          class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
-        >
-          Б. {FoodItem.protein} | У. {FoodItem.carbohydrates} | Ж. {FoodItem.fat}
-        </p>
-      </div>
-      <h6
-        class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased"
-      >
-        {FoodItem.kilojoules} кДж
-      </h6>
-    </div>
+    <FoodSmallItem {food} />
   </Collapsible.Trigger>
   <Collapsible.Content>
     <div class="max-w-sm rounded-lg overflow-hidden border bg-white">
-      <img
-        class="w-full h-28 object-cover"
-        src={imageURL}
-        alt={FoodItem.name}
-      />
+      <img class="w-full h-28 object-cover" src={imageURL} alt={food.name} />
       <div class="px-4 pt-4">
-        <div class="font-bold text-xl mb-2">{FoodItem.name}</div>
+        <div class="font-bold text-xl mb-2">{food.name}</div>
       </div>
       <div class="px-4 pb-4">
         <div class="flex flex-wrap gap-2">
           <Badge variant="outline">
             Белки
-            <span class="pl-2 font-bold">{FoodItem.protein}г</span>
+            <span class="pl-2 font-bold">{food.protein}г</span>
           </Badge>
           <Badge variant="outline">
             Углеводы
-            <span class="pl-2 font-bold">{FoodItem.carbohydrates}г</span>
+            <span class="pl-2 font-bold">{food.carbohydrates}г</span>
           </Badge>
           <Badge variant="outline">
             Жиры
-            <span class="pl-2 font-bold">{FoodItem.fat}г</span>
+            <span class="pl-2 font-bold">{food.fat}г</span>
           </Badge>
           <Badge variant="outline">
-            <span class="pr-2 font-bold">{FoodItem.kilojoules}</span>
+            <span class="pr-2 font-bold">{food.kj}</span>
             кДж
           </Badge>
           <Badge variant="outline">
             <span class="pr-2 font-bold">
-              {Convert.fromKjToKCalories(FoodItem.kilojoules)}
+              {Convert.fromKjToKCalories(food.kj)}
             </span>
             Ккал
           </Badge>
-          {#if FoodItem.isEnumerable}
+          {#if food.isEnumerable}
             <Badge variant="outline">
               Размер одной порции
-              <span class="pl-2 font-bold">{FoodItem.weightGram}г</span>
+              <span class="pl-2 font-bold">{food.weight}г</span>
             </Badge>
           {/if}
         </div>
         <div class="space-x-2 pt-2">
-          <Button variant="outline">Редактировать</Button>
           <Dialog.Root>
-            <Dialog.Trigger>
-              <Button variant="destructive">Удалить</Button>
+            <Dialog.Trigger class="w-full">
+              <Button class="w-full" variant="destructive">Удалить</Button>
             </Dialog.Trigger>
             <Dialog.Content>
               <Dialog.Header>
@@ -100,7 +70,7 @@
                     <Button
                       variant="destructive"
                       on:click={() =>
-                        db.foods.where("id").equals(FoodItem.id).delete()}
+                        db.foods.where("id").equals(food.id).delete()}
                       >ОК</Button
                     >
                   </Dialog.Footer>

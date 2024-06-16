@@ -11,7 +11,7 @@ const mealSchedules = [
 ] as const;
 
 class Context extends Dexie {
-  public foods!: Dexie.Table<Models.Food, "id">;
+  public foods!: Dexie.Table<Models.Food, number>;
   public mealSchedules: ReadonlyArray<Models.MealSchedule>;
   public foodsRecords!: Dexie.Table<Models.FoodRecord, "date">;
 
@@ -21,8 +21,8 @@ class Context extends Dexie {
     this.mealSchedules = mealSchedules;
 
     this.version(1).stores({
-      foods: "++id,&name,fat,protein,carbohydrates,kilojoules,image,weightGram",
-      foodsRecords: "&date,foodId,mealScheduleId",
+      foods: "++id,&name,fat,protein,carbohydrates,kilojoules,image,weight",
+      foodsRecords: "[date+mealScheduleId], *foodId",
     });
 
     this.foods.mapToClass(Models.Food);

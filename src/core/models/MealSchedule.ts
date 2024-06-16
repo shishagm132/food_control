@@ -23,4 +23,12 @@ export default class MealSchedule
   ) {
     super(id);
   }
+
+  override toString() {
+    return `${this.startHours}:${this.startMinutes
+      .toString()
+      .padEnd(2, "0")} – ${this.endHours}:${this.endMinutes
+      .toString()
+      .padEnd(2, "0")}. ${this.name}`;
+  }
 }
