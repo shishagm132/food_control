@@ -23,13 +23,13 @@
     <Route path="" component={routes.MainView} />
     <Route path="history" component={routes.History} />
     <Route path="foods" component={routes.FoodsList} />
-    <Route path="fsettings" component={routes.Settings} />
+    <Route path="settings" component={routes.Settings} />
     <Route path="add_record" component={routes.AddNewFoodRecording} />
     <Route path="add_food" component={routes.AddFood} />
   </div>
   <BottomNavigation>
     <Link
-      to="/"
+      to=""
       type="button"
       class="peer inline-flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 group"
     >
@@ -42,7 +42,7 @@
       <NavName>Главная</NavName>
     </Link>
     <Link
-      to="/foods"
+      to="foods"
       type="button"
       class="inline-flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 group"
     >
@@ -55,7 +55,7 @@
       <NavName>Продукты</NavName>
     </Link>
     <Link
-      to="/history"
+      to="history"
       type="button"
       class="inline-flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 group"
     >
@@ -68,7 +68,7 @@
       <NavName>История</NavName>
     </Link>
     <Link
-      to="/settings"
+      to="settings"
       type="button"
       class="inline-flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 group"
     >
@@ -99,11 +99,11 @@
     </DropdownMenu.Trigger>
     <DropdownMenu.Content side="top">
       <DropdownMenu.Group>
-        <Link to="/add_food">
+        <Link to="add_food">
           <DropdownMenu.Item class="p-4">Добавить продукт</DropdownMenu.Item>
         </Link>
         <DropdownMenu.Separator />
-        <Link to="/add_record">
+        <Link to="add_record">
           <DropdownMenu.Item class="p-4">Добавить запись</DropdownMenu.Item>
         </Link>
       </DropdownMenu.Group>
