@@ -9,7 +9,7 @@
   import * as Alert from "$components/ui/alert";
   import Convert from "../core/Convert";
 
-  let averageWeight = -1;
+  let averageWeight = 1;
   let kilojoules = 0;
   let kilocalories = 0;
   let name = "";
