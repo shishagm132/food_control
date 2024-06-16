@@ -16,18 +16,16 @@
     BottomNavigation,
     NavigationName as NavName,
   } from "./components/BottomNavigation";
-
-  const url = "https://wennerryle.github.io/food_control/";
 </script>
 
-<Router {url} basepath="/food_control">
+<Router basepath="/food_control">
   <div class="max-w-lg mx-auto">
-    <Route path="/" component={routes.MainView} />
-    <Route path="/history" component={routes.History} />
-    <Route path="/foods" component={routes.FoodsList} />
-    <Route path="/settings" component={routes.Settings} />
-    <Route path="/add_record" component={routes.AddNewFoodRecording} />
-    <Route path="/add_food" component={routes.AddFood} />
+    <Route path="" component={routes.MainView} />
+    <Route path="history" component={routes.History} />
+    <Route path="foods" component={routes.FoodsList} />
+    <Route path="fsettings" component={routes.Settings} />
+    <Route path="add_record" component={routes.AddNewFoodRecording} />
+    <Route path="add_food" component={routes.AddFood} />
   </div>
   <BottomNavigation>
     <Link
