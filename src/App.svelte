@@ -20,7 +20,7 @@
   export let url = "";
 </script>
 
-<Router {url}>
+<Router {url} basepath="/food_control">
   <div class="max-w-lg mx-auto">
     <Route path="/" component={routes.MainView} />
     <Route path="/history" component={routes.History} />
